@@ -8,6 +8,11 @@ C#으로 짠 아희 구현체입니다.
 * [테스트 수트](https://github.com/aheui/snippets/tree/master/standard) 통과
 * [40col 콰인](https://github.com/aheui/snippets/blob/master/quine/quine.puzzlet.40col.aheui) 정상작동
 
+## 특징
+
+* ㅎ 저장공간은 통로입니다만, 지금 구현으로는 `/dev/null`처럼 행동하게 됩니다.
+* EOF에 다다르면 문자 입력 결과가 -1을 반환합니다.
+
 ## 성능
 
 Git Bash에 입력한 명령입니다.
