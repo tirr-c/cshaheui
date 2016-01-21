@@ -125,6 +125,7 @@ namespace CShAheui
                             if (Jongseong[instruction.Argument] == -1)
                             {
                                 int number = 0;
+                                int sign = 1;
                                 bool numberStarted = false;
                                 while (true)
                                 {
@@ -139,7 +140,12 @@ namespace CShAheui
                                     char c = (char)t;
                                     if (c < '0' || c > '9')
                                     {
-                                        if (!numberStarted) continue;
+                                        if (!numberStarted)
+                                        {
+                                            if (c == '-') sign = -1;
+                                            else sign = 1;
+                                            continue;
+                                        }
                                         if (!" \t\r\n".Contains(c)) inputCache = t;
                                         break;
                                     }
@@ -147,7 +153,7 @@ namespace CShAheui
                                     number *= 10;
                                     number += (c - '0');
                                 }
-                                storage.Push(number);
+                                storage.Push(number * sign);
                             }
                             else if (Jongseong[instruction.Argument] == -2)
                             {
