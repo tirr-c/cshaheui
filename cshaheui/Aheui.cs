@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Numerics;
 
 namespace CShAheui
 {
@@ -39,7 +40,7 @@ namespace CShAheui
 
         public int Execute(string aheui)
         {
-            int ret = 0;
+            BigInteger ret = 0;
             code = aheui.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
             cursor = new Cursor();
 
@@ -60,7 +61,7 @@ namespace CShAheui
                 }
             }
             Output.Flush();
-            return ret;
+            return (int)ret;
         }
 
         private Hangul Step()
@@ -77,7 +78,7 @@ namespace CShAheui
             {
                 try
                 {
-                    int stackFirst, stackSecond;
+                    BigInteger stackFirst, stackSecond;
                     switch (instruction.Command)
                     {
                         case 'ㅎ':
@@ -118,7 +119,16 @@ namespace CShAheui
                             }
                             else if (Jongseong[instruction.Argument] == -2)
                             {
-                                Output.Write((char)stackFirst);
+                                if (stackFirst < 0x10000) Output.Write((char)stackFirst);
+                                else
+                                {
+                                    int z, x, y;
+                                    z = (int)((stackFirst & 0x1f0000) >> 16) - 1;
+                                    x = (int)((stackFirst & 0xfc00) >> 10);
+                                    y = (int)(stackFirst & 0x3ff);
+                                    Output.Write((char)(0xd800 | (z << 6) | x));
+                                    Output.Write((char)(0xdc00 | y));
+                                }
                             }
                             break;
                         case 'ㅂ':
@@ -157,16 +167,35 @@ namespace CShAheui
                             }
                             else if (Jongseong[instruction.Argument] == -2)
                             {
+                                int t;
                                 if (inputCache != null)
                                 {
-                                    storage.Push(inputCache.Value);
+                                    t = inputCache.Value;
                                     inputCache = null;
                                 }
                                 else
                                 {
-                                    int t = Input.Read();
-                                    storage.Push(t);
+                                    t = Input.Read();
                                 }
+                                if ((t & 0xd800) == 0xd800)
+                                {
+                                    int k = Input.Read();
+                                    if ((k & 0xdc00) == 0xdc00)
+                                    {
+                                        // convert surrogate pair
+                                        int z, x, y;
+                                        z = ((t & 0x3c0) >> 6) + 1;
+                                        x = (t & 0x3f);
+                                        y = (k & 0x3ff);
+                                        t = (z << 16) + (x << 10) + y;
+                                    }
+                                    else
+                                    {
+                                        // not a surrogate pair
+                                        inputCache = k;
+                                    }
+                                }
+                                storage.Push(t);
                             }
                             else
                             {

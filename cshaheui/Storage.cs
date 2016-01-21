@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Numerics;
 
 namespace CShAheui
 {
     public class Storage
     {
-        private Stack<int>[] stacks;
-        private LinkedList<int> queue;
+        private Stack<BigInteger>[] stacks;
+        private LinkedList<BigInteger> queue;
         
         private System.IO.Stream pipe;
         private System.IO.BinaryWriter pipeOut;
         private System.IO.BinaryReader pipeIn;
-        private int pipeOutputCache;
+        private byte[] pipeOutputCache;
 
         public int SelectedStorage { get; set; }
 
@@ -26,18 +27,18 @@ namespace CShAheui
                 pipeOut = new System.IO.BinaryWriter(pipe, Encoding.UTF8, true);
                 pipeIn = new System.IO.BinaryReader(pipe, Encoding.UTF8, true);
             }
-            stacks = new Stack<int>[28];
+            stacks = new Stack<BigInteger>[28];
             for (int i = 0; i < 28; i++)
             {
-                stacks[i] = new Stack<int>();
+                stacks[i] = new Stack<BigInteger>();
             }
-            queue = new LinkedList<int>();
+            queue = new LinkedList<BigInteger>();
 
             SelectedStorage = 0;
-            pipeOutputCache = 0;
+            pipeOutputCache = null;
         }
 
-        public void Push(int val)
+        public void Push(BigInteger val)
         {
             if (SelectedStorage == 21)
             {
@@ -45,8 +46,8 @@ namespace CShAheui
             }
             else if (SelectedStorage == 27 && pipe != null)
             {
-                pipeOut.Write(val);
-                pipeOutputCache = val;
+                pipeOutputCache = val.ToByteArray();
+                pipeOut.Write(pipeOutputCache);
             }
             else
             {
@@ -70,9 +71,9 @@ namespace CShAheui
             }
         }
 
-        public int Pop()
+        public BigInteger Pop()
         {
-            int ret = 0;
+            BigInteger ret = 0;
             if (SelectedStorage == 21)
             {
                 if (queue.Count == 0) throw new AheuiUnderflowException();
@@ -123,7 +124,7 @@ namespace CShAheui
             }
             else
             {
-                int first, second;
+                BigInteger first, second;
                 first = stacks[SelectedStorage].Pop();
                 second = stacks[SelectedStorage].Pop();
                 stacks[SelectedStorage].Push(first);
@@ -134,7 +135,7 @@ namespace CShAheui
         public void Move(int storage)
         {
             int temp = SelectedStorage;
-            int val = Pop();
+            BigInteger val = Pop();
             SelectedStorage = storage;
             Push(val);
             SelectedStorage = temp;
