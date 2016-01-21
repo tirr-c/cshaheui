@@ -177,10 +177,10 @@ namespace CShAheui
                                 {
                                     t = Input.Read();
                                 }
-                                if ((t & 0xd800) == 0xd800)
+                                if (t >= 0xd800 && t < 0xdc00)
                                 {
                                     int k = Input.Read();
-                                    if ((k & 0xdc00) == 0xdc00)
+                                    if (k >= 0xdc00 && t < 0xe000)
                                     {
                                         // convert surrogate pair
                                         int z, x, y;
