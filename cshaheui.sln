@@ -1,9 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cshaheui", "cshaheui\cshaheui.csproj", "{A16FFEE0-C23A-4618-BDBA-2F01FC6FC424}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CShAheui.Core", "CShAheui.Core\CShAheui.Core.csproj", "{271A3913-83BC-4150-811E-0F2D6212B06F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +16,10 @@ Global
 		{A16FFEE0-C23A-4618-BDBA-2F01FC6FC424}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A16FFEE0-C23A-4618-BDBA-2F01FC6FC424}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A16FFEE0-C23A-4618-BDBA-2F01FC6FC424}.Release|Any CPU.Build.0 = Release|Any CPU
+		{271A3913-83BC-4150-811E-0F2D6212B06F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{271A3913-83BC-4150-811E-0F2D6212B06F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{271A3913-83BC-4150-811E-0F2D6212B06F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{271A3913-83BC-4150-811E-0F2D6212B06F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

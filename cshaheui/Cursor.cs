@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CShAheui
+namespace CShAheui.App
 {
-    public class Cursor
+    public class Cursor : ICloneable
     {
         public enum Direction
         {
             Up, Down, Right, Left,
         }
 
-        public class Velocity
+        public class Velocity : ICloneable
         {
             public Direction Direction { get; set; }
             public int Speed { get; set; }
@@ -107,6 +107,14 @@ namespace CShAheui
                     else if (Direction == Cursor.Direction.Left) Direction = Cursor.Direction.Right;
                 }
             }
+
+            public object Clone()
+            {
+                Velocity ret = new Velocity();
+                ret.Direction = Direction;
+                ret.Speed = Speed;
+                return ret;
+            }
         }
 
         public Velocity V { get; private set; }
@@ -157,6 +165,15 @@ namespace CShAheui
                 X %= width;
                 if (X < 0) X += width;
             }
+        }
+
+        public object Clone()
+        {
+            Cursor ret = new Cursor();
+            ret.X = X;
+            ret.Y = Y;
+            ret.V = V.Clone() as Velocity;
+            return ret;
         }
     }
 }

@@ -46,14 +46,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aheui.cs" />
+    <Compile Include="AheuiCompiler.cs" />
     <Compile Include="Cursor.cs" />
-    <Compile Include="Hangul.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Storage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CShAheui.Core\CShAheui.Core.csproj">
+      <Project>{271a3913-83bc-4150-811e-0f2d6212b06f}</Project>
+      <Name>CShAheui.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

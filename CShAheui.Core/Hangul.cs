@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CShAheui
+namespace CShAheui.Core
 {
     public class Hangul
     {
         private static readonly string[] HangulTable = new string[]
         {
-            "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆ\0ㅈㅉㅊㅋㅌㅍㅎ", // choseong
+            "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ", // choseong
             "ㅏ\0ㅑ\0ㅓ\0ㅕ\0ㅗ\0\0\0ㅛㅜ\0\0\0ㅠㅡㅢㅣ", // jungseong
         };
 
