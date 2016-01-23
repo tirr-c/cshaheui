@@ -127,9 +127,9 @@ namespace CShAheui.App
             V = new Velocity();
         }
 
-        public void Move(string[] code, char aheui, bool reversed = false)
+        public void Move(CodePlane code, char aheui, bool reversed = false)
         {
-            int height = code.Length;
+            int height = code.Height;
             V.Update(aheui, reversed);
             int effSpeed = V.Speed;
             switch (V.Direction)
@@ -154,13 +154,13 @@ namespace CShAheui.App
                         Y += effSpeed;
                         Y %= height;
                         if (Y < 0) Y += height;
-                        width = code[Y].Length;
-                    } while (X < 0 && X >= width);
+                        width = code.WidthAt(Y);
+                    } while (X < 0 || X >= width);
                 }
             }
             else
             {
-                int width = code[Y].Length;
+                int width = code.WidthAt(Y);
                 X += effSpeed;
                 X %= width;
                 if (X < 0) X += width;

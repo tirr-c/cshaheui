@@ -13,7 +13,7 @@ namespace CShAheui.App
     public class Aheui : IntAheuiBase
 #endif
     {
-        private string[] code;
+        private CodePlane code;
         private Cursor cursor;
         
         public Aheui() : base()
@@ -29,7 +29,7 @@ namespace CShAheui.App
 
         public int Execute(string aheui)
         {
-            code = aheui.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+            code = new CodePlane(aheui);
             cursor = new Cursor();
 
             return Execute();
@@ -50,11 +50,7 @@ namespace CShAheui.App
         private Hangul Step()
         {
             // 1. Poll
-            Hangul instruction = new Hangul();
-            if (code[cursor.Y].Length > cursor.X)
-            {
-                instruction = new Hangul(code[cursor.Y][cursor.X]);
-            }
+            Hangul instruction = code.At(cursor.X, cursor.Y);
             // 2. Execute
             bool reversed = false;
             if (!instruction.IsNop)
@@ -65,11 +61,11 @@ namespace CShAheui.App
                 }
                 catch (NotImplementedException)
                 {
-                    Error.WriteLine("[!!] 구현되지 않은 행동: {0}행 {1}열 '{2}'", cursor.Y + 1, cursor.X + 1, code[cursor.Y][cursor.X]);
+                    Error.WriteLine("[!!] 구현되지 않은 행동: {0}행 {1}열", cursor.Y + 1, cursor.X + 1);
                 }
                 catch (DivideByZeroException)
                 {
-                    Error.WriteLine("[!!] 0으로 나눔: {0}행 {1}열 '{2}'", cursor.Y + 1, cursor.X + 1, code[cursor.Y][cursor.X]);
+                    Error.WriteLine("[!!] 0으로 나눔: {0}행 {1}열", cursor.Y + 1, cursor.X + 1);
                 }
             }
             // 3. Move

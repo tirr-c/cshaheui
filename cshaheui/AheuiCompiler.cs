@@ -55,9 +55,9 @@ namespace CShAheui.App
         private List<Instruction> Instructions;
         private Stack<CursorReserver> CursorStack;
 
-        string[] code;
-        Cursor cursor;
-        Action<int> jumpAction;
+        private CodePlane code;
+        private Cursor cursor;
+        private Action<int> jumpAction;
 
         public AheuiCompiler()
         {
@@ -68,7 +68,7 @@ namespace CShAheui.App
             ExecuteCache = new Dictionary<string, int>();
             Instructions = new List<Instruction>();
             CursorStack = new Stack<CursorReserver>();
-            code = aheui.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            code = new CodePlane(aheui);
             CursorStack.Push(new CursorReserver(new Cursor(), null));
             while (CursorStack.Count > 0)
             {
@@ -182,11 +182,7 @@ namespace CShAheui.App
         private bool VirtualStep()
         {
             // 1. Poll
-            Hangul instruction = new Hangul();
-            if (code[cursor.Y].Length > cursor.X)
-            {
-                instruction = new Hangul(code[cursor.Y][cursor.X]);
-            }
+            Hangul instruction = code.At(cursor.X, cursor.Y);
             // 2. Execute
             string id = $"{cursor.X}_{cursor.Y}";
             if (instruction.Direction == '\0' ||
