@@ -72,7 +72,13 @@ namespace CShAheui.Core
                             else sign = 1;
                             continue;
                         }
-                        if (!" \t\r\n".Contains(c)) inputCache = t;
+                        while (" \t\r\n".Contains(c))
+                        {
+                            t = Input.Read();
+                            if (t <= -1) break;
+                            c = (char)t;
+                        }
+                        inputCache = t;
                         break;
                     }
                     numberStarted = true;
